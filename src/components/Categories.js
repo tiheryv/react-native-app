@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { colors, fonts, padding } from "../_base"
-import { TouchableHighlight, ActivityIndicator, View, FlatList, StyleSheet, Text, Alert } from 'react-native';
+import {
+    TouchableHighlight,
+    ActivityIndicator,
+    View,
+    FlatList,
+    StyleSheet,
+    Text,
+    Alert
+} from 'react-native';
+
+import Loading from "./common/Loading";
 
 const url = "https://acamicaexample.herokuapp.com/categories";
 
 const Categories = () => {
 
-    const [isLoading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true)
     const [data, setData] = useState([])
 
     const getData = () => {
@@ -30,27 +40,23 @@ const Categories = () => {
     return (
 
         <View>
-            {
-                isLoading ? (
-                    <Text> Cargando </Text>
-                ) : (
-                    <FlatList
-                        data={data}
-                        keyExtractor={({ id }, index) => id}
-                        renderItem={({ item }) => (
-                            <TouchableHighlight
-                                underlayColor={colors.primary}
-                                onPress={(item) => console.log("item")}
-                                style={styles.item}
-                            >
-                                <Text>
-                                    {item.name}
-                                </Text>
-                            </TouchableHighlight>
-                        )}
-                    />
-                )
-            }
+            <Loading isLoading={loading} />
+            <FlatList
+                data={data}
+                keyExtractor={({ id }, index) => id}
+                renderItem={({ item }) => (
+                    <TouchableHighlight
+                        underlayColor={colors.primary}
+                        onPress={(item) => console.log("item")}
+                        style={styles.item}
+                    >
+                        <Text>
+                            {item.name}
+                        </Text>
+                    </TouchableHighlight>
+                )}
+            />
+
         </View>
     )
 }
